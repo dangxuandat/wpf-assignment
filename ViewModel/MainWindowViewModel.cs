@@ -27,8 +27,8 @@ namespace WPF_Assignment_Version2.ViewModel
         private ICommand _deleteCommand;
         private ICommand _selectCommand;
         private PriceLevel _priceLevel;
+        private bool _isEnalbe;
         private Order _order;
-        private bool _isEnable; //Disable Payment info if Price Level is Interal
 
 
         public MainWindowViewModel()
@@ -126,14 +126,14 @@ namespace WPF_Assignment_Version2.ViewModel
             {
                 if (_priceLevel == PriceLevel.Internal_Price)
                 {
-                    return false;
+                    return _isEnalbe = false;
                 }
                 else
                 {
-                    return true;
+                    return _isEnalbe = true;
                 }
             }
-            set { _isEnable = value; OnPropertyChanged(); }
+            set { _isEnalbe = value; OnPropertyChanged(); }
         }
         public SalesPerson SalesPerson
         {
