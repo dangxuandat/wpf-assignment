@@ -78,6 +78,7 @@ namespace WPF_Assignment_Version2.Model
             {
                 _quantity = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Amount));
             }
         }
         public float Amount {
@@ -100,6 +101,7 @@ namespace WPF_Assignment_Version2.Model
             {
                 _discPercent = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(FinalAmount));
             }
         }
         public float DiscAmount {
@@ -116,7 +118,7 @@ namespace WPF_Assignment_Version2.Model
         public float FinalAmount {
             get
             {
-                return Amount - (Amount * DiscPercent);
+                return Amount - (Amount * DiscPercent/100);
             }
         }
         public float Tax {
@@ -135,6 +137,8 @@ namespace WPF_Assignment_Version2.Model
                 return FinalAmount * Tax * 5 / 100;
             }
         }
+
+        
 
         public OrderDetail()
         {
