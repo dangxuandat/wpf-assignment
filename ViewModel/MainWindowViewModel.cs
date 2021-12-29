@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using WPF_Assignment_Version2.Command;
 using WPF_Assignment_Version2.Model;
 
 namespace WPF_Assignment_Version2.ViewModel
@@ -14,92 +16,106 @@ namespace WPF_Assignment_Version2.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<Person> customers;
-        private ObservableCollection<Person> salesPersons;
-        private List<string> priceLevels;
-        private List<string> paymentTerms;
-        private ObservableCollection<OrderDetail> orderDetails;
-
-        public ObservableCollection<Person> Customers
+        private Customer _customer;
+        private SalesPerson _salesPerson;
+        private ObservableCollection<Person> _customers;
+        private ObservableCollection<Person> _salesPersons;
+        private OrderDetail _orderDetail;
+        private ObservableCollection<OrderDetail> _orderDetails;
+        private ICommand _deleteCommand;
+        private ICommand _selectCommand;
+        
+        public ICommand SelectCommand
         {
             get
             {
-                return customers;
+                if(_selectCommand == null)
+                {
+                    _selectCommand = new RelayCommand(SelectedCommand,CanSelectCommand);
+                }
+                return _selectCommand;
+            }
+        }
+        public bool CanSelectCommand(object parameter)
+        {
+            return true;
+        }
+        public void SelectedCommand(object parameter)
+        {
+            _orderDetails.Add(new OrderDetail { Sequential = _orderDetails.Count + 1 });
+            OnPropertyChanged("_orderDetails");
+        }
+        public ICommand DeleteCommand
+        {
+            get 
+            { 
+                if(_deleteCommand == null)
+                {
+                    _deleteCommand = new RelayCommand(DeletedCommand, CanDeleteCommand);
+                }
+                return _deleteCommand;
+            }
+        }
+
+        public bool CanDeleteCommand(object parameter)
+        {
+            return true;
+        }
+        public void DeletedCommand(object parameter)
+        {
+            _orderDetails.Remove(_orderDetail);
+            OnPropertyChanged("OrderDetails");
+        }
+        public MainWindowViewModel()
+        {
+            //_orderDetail = new OrderDetail();
+            _orderDetails = new ObservableCollection<OrderDetail>()
+            {
+                new OrderDetail(1,"STK00001","APPLE IPAD CASTING - WHITE","PC",160.00F,0.00F,1,30,0.00F),
+                new OrderDetail(2,"STK00001","SAMSUNG GALAXY TAB 10.1 CASTING - BLACK","PC",40.00F,0.00F,1,40,0.00F),
+                new OrderDetail(3,"STK00001","SAMSUNG GALAXY TAB 10.1 CASING - WHITE","PC",30.00F,0.00F,1,50,0.00F),
+            };
+        }
+        public Customer Customer
+        {
+            get
+            {
+                return _customer;
             }
             set
             {
-                customers = value;
+                _customer = value;
+                OnPropertyChanged();
             }
+        }
+
+        public SalesPerson SalesPerson
+        {
+            get { return _salesPerson; }
+            set { _salesPerson = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<Person> Customers
+        {
+            get { return _customers; }
+            set { _customers = value; OnPropertyChanged(); }
         }
 
         public ObservableCollection<Person> SalesPersons
         {
-            get
-            {
-                return salesPersons;
-            }
-            set
-            {
-                salesPersons = value;
-            }
+            get { return _salesPersons; }
+            set { _salesPersons = value; OnPropertyChanged(); }
         }
-        public List<string> PriceLevels
+
+        public OrderDetail OrderDetail
         {
-            get { return priceLevels; }
-            set { 
-                priceLevels = value;
-                OnPropertyChanged();
-            }
+            get { return _orderDetail; }
+            set { _orderDetail = value; OnPropertyChanged(); }
         }
-        public List<string> PaymentTerms
-        {
-            get { return paymentTerms; }
-            set { 
-                paymentTerms = value;
-                OnPropertyChanged();
-            }
-        }
-        public ObservableCollection<OrderDetail> OrderDetails
-        {
-            get { return orderDetails; }
-            set { 
-                orderDetails = value;
-                OnPropertyChanged();
-            }
-        }
-        public MainWindowViewModel()
-        {
-            customers = new ObservableCollection<Person>()
-            {
-                new Customer{Name = "dat dang"},
-                new Customer{Name = "dang minh duc"},
-                new Customer{Name = "Marry"},
-                new Customer{Name = "Marry"},
-            };
-            salesPersons = new ObservableCollection<Person>()
-            {
-                new SalesPerson{Name = "Dang Xuan Dat", Id = "SE150699"},
-                new SalesPerson{Name = "Dang Van A", Id = "SE150688"},
-                new SalesPerson{Name = "Dang Van B", Id = "SE150612"}
-            };
-            priceLevels = new List<string>()
-            {
-                "1 - Regular Price",
-                "2 - Wholesale Price",
-                "3 - Internal Price"
-            };
-            paymentTerms = new List<string>()
-            {
-                "0 Days",
-                "7 Days",
-                "30 Days"
-            };
-            orderDetails = new ObservableCollection<OrderDetail>()
-            {
-               new OrderDetail("STK000001","APPLE IPAD CASTING WHITE","PC",160F,0.00F,1,30,0.00F),
-               new OrderDetail("STK000002","SAMSUNG GALAXY TAB 10.1 CASTING BLACK","PC",160F,0.00F,1,30,0.00F),
-               new OrderDetail("STK000003","SAMSUNG GALAXY TAB 10.1 CASTING WHITE","PC",160F,0.00F,1,30,0.00F)
-            };
+
+        public ObservableCollection<OrderDetail> OrderDetails{
+            get { return _orderDetails; }
+            set { _orderDetails = value; OnPropertyChanged();}
         }
 
         //Caller Member Name will return name of method

@@ -10,6 +10,7 @@ namespace WPF_Assignment_Version2.Model
 {
     public class OrderDetail : INotifyPropertyChanged
     {
+        private int? _sequential;
         private string _itemCode;
         private string _description;
         private string _uom;
@@ -19,6 +20,14 @@ namespace WPF_Assignment_Version2.Model
         private int _quantity;
         private float _discAmount;
         private float _amount;
+        public int? Sequential
+        {
+            get { return _sequential; }
+            set { 
+                _sequential = value;
+                OnPropertyChanged();
+            }
+        }
         public string ItemCode { 
             get { 
                 return _itemCode;
@@ -78,7 +87,7 @@ namespace WPF_Assignment_Version2.Model
             }
             set
             {
-                _amount = value;
+                _amount = UnitPrice * Quantity;
                 OnPropertyChanged();
             }
         }
@@ -127,8 +136,13 @@ namespace WPF_Assignment_Version2.Model
             }
         }
 
-        public OrderDetail(string itemCode, string description, string uom, float unitPrice, float discPercent, float tax, int quantity, float discAmount)
+        public OrderDetail()
         {
+
+        }
+        public OrderDetail(int sequential,string itemCode, string description, string uom, float unitPrice, float discPercent, float tax, int quantity, float discAmount)
+        {
+            _sequential = sequential;
             _itemCode = itemCode;
             _description = description;
             _uom = uom;

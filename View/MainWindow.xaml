@@ -130,23 +130,101 @@
         </GroupBox>
         <!--Payment Info-->
         <!--Data Grid-->
-        <DataGrid Name="OrderDataGrid" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" DataContext="{StaticResource MainWindowViewModel}" 
-                  ItemsSource="{Binding OrderDetails}" AutoGenerateColumns="False">
+        <DataGrid Name="OrderDataGrid" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" DataContext="{StaticResource MainWindowViewModel}" ItemsSource="{Binding OrderDetails, Mode=TwoWay}" SelectedItem="{Binding OrderDetail, Mode=OneWayToSource}" CanUserAddRows="False"
+            AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header=""></DataGridTextColumn>
-                <DataGridTextColumn Header=""></DataGridTextColumn>
-                <DataGridTextColumn Header="Seq" ></DataGridTextColumn>
-                <DataGridTextColumn Header="Item Code" Binding="{Binding ItemCode, Mode=OneTime}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Description" Width="auto" Binding="{Binding Description, Mode=OneTime}"></DataGridTextColumn>
-                <DataGridTextColumn Header="U.O.M" Binding="{Binding UOM, Mode=OneTime}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, Mode=OneTime}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, Mode=OneWay, UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, Mode=OneWay,UpdateSourceTrigger=Default}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Disc %" Binding="{Binding DiscPercent, Mode=OneWay, UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Disc Amt" Binding="{Binding DiscAmount, Mode=OneWay}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Final Amt" Binding="{Binding FinalAmount, Mode=OneWay}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Tax(1)" Binding="{Binding Tax, Mode=OneWay}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Tax Amount(1)" Binding="{Binding TaxAmount, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" Content="Delete" Width="70"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" Content="Select" Width="70"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Seq" Binding="{Binding Sequential, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Item Code" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ItemCode}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="400" Header="Description">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Description, Mode=OneWay}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="U.O.M" Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UOM, Mode=OneWay}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Unit Price" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnitPrice,Mode=OneWay}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Quantity, Mode=OneWay, UpdateSourceTrigger=LostFocus}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Amount" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Amount, Mode=OneWay}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Disc %" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DiscPercent, Mode=OneWay}" HorizontalAlignment="Right"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Disc Amt" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DiscAmount,Mode=OneWay}" HorizontalAlignment="Right"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Final Amt" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FinalAmount}" HorizontalAlignment="Right"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tax(1)" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Tax}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tax Amount" Width="190">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TaxAmount}" HorizontalAlignment="Right"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             
         </DataGrid>

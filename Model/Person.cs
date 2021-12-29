@@ -8,12 +8,12 @@ namespace WPF_Assignment_Version2.Model
 {
     public abstract class Person
     {
-        private string name;
+        private string _name;
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
     }
 }
