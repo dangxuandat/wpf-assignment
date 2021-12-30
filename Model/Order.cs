@@ -11,6 +11,7 @@ namespace WPF_Assignment_Version2.Model
     public class Order : INotifyPropertyChanged
     {
         private string _code;
+        private string _orderNumber;
         private string _currencyCode;
         private PriceLevel _priceLevel;
         private DateTime _date;
@@ -33,6 +34,8 @@ namespace WPF_Assignment_Version2.Model
         public Person BillTo { get => _billTo; set { _billTo = value; OnPropertyChanged(); } }
         public PaymentTerm PaymentTerm { get => _paymentTerm; set { _paymentTerm = value; OnPropertyChanged(); } }
         public string Cheque { get => _cheque; set { _cheque = value; OnPropertyChanged(); } }
+
+        public string OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

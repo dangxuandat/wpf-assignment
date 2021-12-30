@@ -12,7 +12,7 @@ using WPF_Assignment_Version2.Model;
 
 namespace WPF_Assignment_Version2.ViewModel
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -29,7 +29,12 @@ namespace WPF_Assignment_Version2.ViewModel
         private PriceLevel _priceLevel;
         private bool _isEnalbe;
         private Order _order;
-
+        private string _orderNumber;
+        private string _currencyCode;
+        private DateTime _date;
+        private DateTime _dueBy;
+        private DateTime _shippingDate;
+        
 
         public MainWindowViewModel()
         {
@@ -53,6 +58,9 @@ namespace WPF_Assignment_Version2.ViewModel
                 new OrderDetail(3,"STK00001","SAMSUNG GALAXY TAB 10.1 CASING - WHITE","PC",30.00F,0.00F,1,50,0.00F),
             };
             _order = new Order() {Code = "INVI13030002",CurrencyCode = "USD"};
+            _date = DateTime.Today;
+            _dueBy = DateTime.Today;
+            _shippingDate = DateTime.Today;
         }
         public PriceLevel PriceLevel
         {
@@ -106,6 +114,89 @@ namespace WPF_Assignment_Version2.ViewModel
             OnPropertyChanged("OrderDetails");
         }
         
+
+        public DateTime Date
+        {
+            get { return _date; }
+            set 
+            { 
+                _date = value;
+                ClearErrorsOfProperty(nameof(DueBy));
+                if (_dueBy < _date)
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(DueBy), "Due By must be greater than Date");
+                }
+                ClearErrorsOfProperty(nameof(ShippingDate));
+                if (_shippingDate < _date)
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(ShippingDate), "Shipping Date must be greater than Date");
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime DueBy
+        {
+            get 
+            { 
+                return _dueBy;
+            }
+            set 
+            { 
+                _dueBy = value;
+                ClearErrorsOfProperty(nameof(DueBy));
+                if(_dueBy < _date)
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(DueBy), "Due By must be greater than Date");
+                }
+                OnPropertyChanged();
+            }
+        }
+        public DateTime ShippingDate
+        {
+            get
+            {
+                return _shippingDate;
+            }
+            set
+            {
+                _shippingDate = value;
+                ClearErrorsOfProperty(nameof(ShippingDate));
+                if(_shippingDate < _date)
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(ShippingDate), "Shipping Date must be greater than Date");
+                }
+                OnPropertyChanged();
+            }
+        }
+        public string CurrencyCode
+        {
+            get 
+            { return _currencyCode; }
+            set 
+            {
+                _currencyCode = value;
+                ClearErrorsOfProperty(nameof(CurrencyCode));
+                if(_currencyCode.ToCharArray().Length != 3)
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(CurrencyCode), "Currency must be equal 3 characters");
+                }
+                OnPropertyChanged();
+            }
+        }
+        public string OrderNumber
+        {
+            get { return _orderNumber; }
+            set {
+                _orderNumber = value;
+                ClearErrorsOfProperty(nameof(OrderNumber));
+                if (_orderNumber.Length > 10)
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number's length is required to be lower than 10 characters!!");
+                }
+                OnPropertyChanged();
+            }
+        }
         public Customer Customer
         {
             get
@@ -172,7 +263,7 @@ namespace WPF_Assignment_Version2.ViewModel
             }
             set
             {
-                _order = value; 
+                _order = value;
                 OnPropertyChanged();
             }
         }
@@ -193,6 +284,16 @@ namespace WPF_Assignment_Version2.ViewModel
         private void OnPropertyChanged([CallerMemberName]string parameter = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(parameter)); 
+        }
+
+        private bool IsSavable(Order _order)
+        {
+            bool isSavable = false;
+            if(_order.OrderNumber.Count() > 10)
+            {
+                AddErrorOfPropertyInErrorsList(_order.OrderNumber, "Order Number's length is required lower than 10 characters!");
+            }
+            return isSavable;
         }
     }
 }
