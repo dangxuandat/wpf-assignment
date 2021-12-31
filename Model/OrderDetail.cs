@@ -10,7 +10,7 @@ namespace WPF_Assignment_Version2.Model
 {
     public class OrderDetail : INotifyPropertyChanged
     {
-        private int? _sequential;
+        private int _sequential;
         private string _itemCode;
         private string _description;
         private string _uom;
@@ -20,7 +20,7 @@ namespace WPF_Assignment_Version2.Model
         private int _quantity;
         private float _discAmount;
         private float _amount;
-        public int? Sequential
+        public int Sequential
         {
             get { return _sequential; }
             set { 
@@ -79,6 +79,8 @@ namespace WPF_Assignment_Version2.Model
                 _quantity = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Amount));
+                OnPropertyChanged(nameof(FinalAmount));
+                OnPropertyChanged(nameof(TaxAmount));
             }
         }
         public float Amount {
@@ -120,6 +122,11 @@ namespace WPF_Assignment_Version2.Model
             {
                 return Amount - (Amount * DiscPercent/100);
             }
+            set
+            {
+                Amount = Amount * DiscPercent;
+                OnPropertyChanged();
+            }
         }
         public float Tax {
             get
@@ -134,7 +141,7 @@ namespace WPF_Assignment_Version2.Model
         }
         public float TaxAmount { 
             get {
-                return FinalAmount * Tax * 5 / 100;
+                return FinalAmount * (Tax * 5 / 100);
             }
         }
 
@@ -164,5 +171,21 @@ namespace WPF_Assignment_Version2.Model
             PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(name));
         }
 
+
+        public override string ToString()
+        {
+            return String.Format($"Order Detail: \n" +
+                                $"Item Code: {ItemCode} \n" +
+                                $"Description: {Description} \n" +
+                                $"U.O.M: {UOM} \n" +
+                                $"Unit Price: {UnitPrice} \n" +
+                                $"Quantity: {Quantity} \n" +
+                                $"Amount: {Amount} \n" +
+                                $"Disc%: {DiscPercent}% \n" +
+                                $"DiscAmount: {DiscAmount} \n" +
+                                $"Final Amt: {FinalAmount} \n" +
+                                $"Tax: {Tax} \n" +
+                                $"Tax Amount: {TaxAmount} \n");
+        }
     }
 }
