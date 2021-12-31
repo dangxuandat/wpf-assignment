@@ -174,18 +174,19 @@ namespace WPF_Assignment_Version2.Model
 
         public override string ToString()
         {
-            return String.Format($"Order Detail: \n" +
-                                $"Item Code: {ItemCode} \n" +
-                                $"Description: {Description} \n" +
-                                $"U.O.M: {UOM} \n" +
-                                $"Unit Price: {UnitPrice} \n" +
-                                $"Quantity: {Quantity} \n" +
-                                $"Amount: {Amount} \n" +
-                                $"Disc%: {DiscPercent}% \n" +
-                                $"DiscAmount: {DiscAmount} \n" +
-                                $"Final Amt: {FinalAmount} \n" +
-                                $"Tax: {Tax} \n" +
-                                $"Tax Amount: {TaxAmount} \n");
+            string output = $"Order Detail: \n" +
+                                $"      Item Code: {ItemCode} \n" +
+                                $"      Description: {Description} \n" +
+                                $"      U.O.M: {UOM} \n" +
+                                $"      Unit Price: {UnitPrice} \n" +
+                                $"      Quantity: {Quantity} \n" +
+                                $"      Amount: {Amount} \n" +
+                                $"      Disc%: {DiscPercent}% \n" +
+                                $"      DiscAmount: {DiscAmount} \n" +
+                                $"      Final Amt: {FinalAmount} \n" +
+                                $"      Tax: {Tax} \n" +
+                                $"      Tax Amount: {TaxAmount} \n";
+            return output;
         }
     }
 }

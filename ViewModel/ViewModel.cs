@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WPF_Assignment_Version2.ViewModel
 {
-    public class ViewModel : INotifyDataErrorInfo
+    public class ViewModel : INotifyDataErrorInfo,INotifyPropertyChanged
     {
-        private Dictionary<string, List<string>> _errorsOnProperty = new Dictionary<string, List<string>>(); //contains all errors of specific property
+        protected Dictionary<string, List<string>> _errorsOnProperty = new Dictionary<string, List<string>>(); //contains all errors of specific property
         public bool HasErrors
         {
             get
@@ -35,6 +36,13 @@ namespace WPF_Assignment_Version2.ViewModel
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        //Caller Member Name will return name of method
+        protected void OnPropertyChanged([CallerMemberName] string parameter = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(parameter));
+        }
 
         public IEnumerable GetErrors(string propertyName)
         {

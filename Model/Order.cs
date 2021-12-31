@@ -74,16 +74,45 @@ namespace WPF_Assignment_Version2.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
+        private string printOrderDetails()
+        {
+            string orderDetail = "";
+            foreach (OrderDetail item in _orderDetails)
+            {
+                orderDetail += "\n";
+                orderDetail += item.ToString();
+            }
+            return orderDetail;
+        }
         public override string ToString()
         {
+
             string output = $"Order: \n" +
+                            $"   Order Number: {_orderNumber}\n" +
                             $"   Customer: {_customer}\n" +
                             $"   SalesPerson: {_salesPerson}\n" +
-                            $"   Date: {_date}\n" +
-                            $"   Due Date: {_dueBy}\n" +
-                            $"   Ship Date: {_shippingDate}\n" +
-                            $"   Order Details: \n";
-            return "s";
+                            $"   Date: {_date.ToShortDateString()}\n" +
+                            $"   Due Date: {_dueBy.ToShortDateString()}\n" +
+                            $"   Ship To: {_shipTo}\n" +
+                            $"   Ship Date: {_shippingDate.ToShortDateString()}\n" +
+                            $"   Shipping Terms: {_shippingTerms}\n" +
+                            $"   Bill To: {_billTo}\n" +
+                            $"   Payment Terms: {_paymentTerm}\n" +
+                            $"   Payment Method: {_cheque}\n" +
+                            $"   Order Details: \n" +
+                            $"         {printOrderDetails()}" +
+                            $"   VAT: {_vat}\n" +
+                            $"   Discount: {_cheque}\n" +
+                            $"   Sub Total: {_total}\n" +
+                            $"   Add. Discount: {_addDiscount}\n" +
+                            $"   Shipping: {_shipping}\n" +
+                            $"   Tax: {_tax}\n" +
+                            $"   Total: {_total}\n" +
+                            $"   Note: {_note}\n" +
+                            $"   Total String: {_totalString}\n";
+
+
+            return output;
         }
     }
 }

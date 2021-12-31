@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WPF_Assignment_Version2.Command;
@@ -13,9 +7,8 @@ using WPF_Assignment_Version2.Model;
 
 namespace WPF_Assignment_Version2.ViewModel
 {
-    public class MainWindowViewModel : ViewModel, INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private Customer _customer;
         private Customer _billTo;
@@ -50,6 +43,7 @@ namespace WPF_Assignment_Version2.ViewModel
         private float _tax;
         private string _note;
         private string _totalString;
+
 
 
         public MainWindowViewModel()
@@ -277,6 +271,10 @@ namespace WPF_Assignment_Version2.ViewModel
                 {
                     AddErrorOfPropertyInErrorsList(nameof(CurrencyCode), "Currency must be equal 3 characters");
                 }
+                if (string.IsNullOrWhiteSpace(_currencyCode))
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(CurrencyCode), "Currency is empty");
+                }
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsSavable));
             }
@@ -290,6 +288,10 @@ namespace WPF_Assignment_Version2.ViewModel
                 if (_orderNumber.Length > 10)
                 {
                     AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number's length is required to be lower than 10 characters!!");
+                }
+                if (string.IsNullOrWhiteSpace(_orderNumber))
+                {
+                    AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number is empty");
                 }
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsSavable));
@@ -406,7 +408,6 @@ namespace WPF_Assignment_Version2.ViewModel
             set { _shipTo = value; OnPropertyChanged();}
         }
 
-        public string CurrencyCode1 { get => _currencyCode; set { _currencyCode = value; OnPropertyChanged(); }  }
         public string ShippingTerms { get => _shippingTerms; set { _shippingTerms = value; OnPropertyChanged(); } }
         public string Cheque { get => _cheque; set { _cheque = value; OnPropertyChanged(); } }
         public PaymentTerm PaymentTerm { get => _paymentTerm; set { _paymentTerm = value; OnPropertyChanged(); }  }
@@ -505,10 +506,5 @@ namespace WPF_Assignment_Version2.ViewModel
         public string Note { get => _note; set { _note = value;  OnPropertyChanged(); } }
         public string TotalString { get => _totalString; set { _totalString = value; OnPropertyChanged(); } }
 
-        //Caller Member Name will return name of method
-        private void OnPropertyChanged([CallerMemberName]string parameter = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(parameter)); 
-        }
     }
 }

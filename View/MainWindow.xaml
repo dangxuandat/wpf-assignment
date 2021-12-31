@@ -24,8 +24,29 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <converter:Converter x:Key="Converter"></converter:Converter>
-        
+       <Style TargetType="GroupBox">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"></TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#a3d6ff"></Setter>
+        </Style>
+        <!--<Style TargetType="DataGridRowHeader">
+            <Setter Property="Background" Value="#a3d6ff"></Setter>
+        </Style>-->
     </Window.Resources>
+
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="Background" Value="AliceBlue"></Setter>
+        </Style>
+    </Window.Style>
 
     <Window.InputBindings>
         <KeyBinding Command="{Binding Source={StaticResource MainWindowViewModel},Path=ShowMessageCommand}"  Modifiers="Ctrl" Key="S"/>
@@ -227,7 +248,7 @@
         <!--Data Grid-->
         <DataGrid Name="OrderDataGrid" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" DataContext="{StaticResource MainWindowViewModel}" ItemsSource="{Binding OrderDetails, Mode=TwoWay}" SelectedItem="{Binding OrderDetail, Mode=TwoWay}" CanUserAddRows="False"
             AutoGenerateColumns="False">
-            
+
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="100">
                     <DataGridTemplateColumn.CellTemplate>
@@ -357,7 +378,7 @@
         <!--Tax Control-->
 
         <!--Summary-->
-        <GroupBox Header="Summary" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3">
+        <GroupBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Header="Summary">
             <Grid>
                 <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
