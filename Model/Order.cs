@@ -71,7 +71,7 @@ namespace WPF_Assignment_Version2.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private string printOrderDetails()
+        private string PrintOrderDetails()
         {
             string orderDetail = "";
             foreach (OrderDetail item in _orderDetails)
@@ -97,7 +97,7 @@ namespace WPF_Assignment_Version2.Model
                             $"   Payment Terms: {_paymentTerm}\n" +
                             $"   Payment Method: {_cheque}\n" +
                             $"   Order Details: \n" +
-                            $"         {printOrderDetails()}" +
+                            $"         {PrintOrderDetails()}" +
                             $"   VAT: {_vat}\n" +
                             $"   Discount: {_cheque}\n" +
                             $"   Sub Total: {_total}\n" +
