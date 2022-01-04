@@ -191,10 +191,10 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBox  Grid.Column="1" Grid.Row="1" Width="auto" Text="{Binding OrderNumber,Mode=TwoWay,ValidatesOnNotifyDataErrors=True,UpdateSourceTrigger=PropertyChanged}">
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding OrderNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" >
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel>
                                 <AdornedElementPlaceholder x:Name="textBox"/>
                                 <ItemsControl ItemsSource="{Binding}">
                                     <ItemsControl.ItemTemplate>

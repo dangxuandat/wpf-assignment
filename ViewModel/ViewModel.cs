@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -53,7 +54,7 @@ namespace WPF_Assignment_Version2.ViewModel
             }
             else
             {
-                return null;
+                return Enumerable.Empty<string>(); // return empty list string instead of returning null
             }
         }
 
@@ -75,9 +76,10 @@ namespace WPF_Assignment_Version2.ViewModel
                 OnErrorChanged(property);
             }//Delete All Errors of that property before check to prevent duplicating error 
         }
-        private void OnErrorChanged(string property)
+        protected void OnErrorChanged(string property)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(property));
         }
+
     }
 }

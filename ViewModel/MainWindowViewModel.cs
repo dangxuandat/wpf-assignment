@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using WPF_Assignment_Version2.Command;
@@ -279,22 +283,27 @@ namespace WPF_Assignment_Version2.ViewModel
                 OnPropertyChanged(nameof(IsSavable));
             }
         }
+
+        [Required(ErrorMessage = "Order number is not empty")]
+        [MaxLength(10, ErrorMessage = "Order Number's length is required to be lower than 10 characters!!")]
         public string OrderNumber
         {
             get { return _orderNumber; }
             set {
                 _orderNumber = value;
-                ClearErrorsOfProperty(nameof(OrderNumber));
-                if (_orderNumber.Length > 10)
-                {
-                    AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number's length is required to be lower than 10 characters!!");
-                }
-                if (string.IsNullOrWhiteSpace(_orderNumber))
-                {
-                    AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number is empty");
-                }
+                //ClearErrorsOfProperty(nameof(OrderNumber));
+                //if (_orderNumber.Length > 10)
+                //{
+                //    AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number's length is required to be lower than 10 characters!!");
+                //}
+                //if (string.IsNullOrWhiteSpace(_orderNumber))
+                //{
+                //    AddErrorOfPropertyInErrorsList(nameof(OrderNumber), "Order Number is empty");
+                //}
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsSavable));
+                ValidateByAnnotation(value);
+                
             }
         }
         public Customer Customer
@@ -506,5 +515,17 @@ namespace WPF_Assignment_Version2.ViewModel
         public string Note { get => _note; set { _note = value;  OnPropertyChanged(); } }
         public string TotalString { get => _totalString; set { _totalString = value; OnPropertyChanged(); } }
 
+        //validate based on attribute
+        private void ValidateByAnnotation(object value,[CallerMemberName] string property = null)
+        {
+            ClearErrorsOfProperty(property);
+            ValidationContext context = new ValidationContext(this) { MemberName = property};
+            List<ValidationResult> results = new List<ValidationResult>();
+            if (!Validator.TryValidateProperty(value, context, results))
+            {
+                _errorsOnProperty[property] = results.Select(x => x.ErrorMessage).ToList();
+            }
+            OnErrorChanged(property);
+        }    
     }
 }
